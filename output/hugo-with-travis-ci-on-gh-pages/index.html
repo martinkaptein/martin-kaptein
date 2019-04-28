@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Using Hugo with Travis CI on GitHub Pages - Martin Kaptein</title><meta name="description" content="In this blog post I will show how to build your static website with Hugo and deploy it to GitHub pages automatically using Travis CI. This can have a lot of benefits: For example, you can fix typo's directly from the Github web interface from your phone (without editing raw HTML). I kept the whole setup as minimal as possible. Hence, no bash script or travis command line tools are required."><meta name="robots" content="index, follow"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="canonical" href="https://www.martinkaptein.com/hugo-with-travis-ci-on-gh-pages/"><link rel="amphtml" href="https://www.martinkaptein.com/amp/hugo-with-travis-ci-on-gh-pages/"><link type="application/atom+xml" rel="alternate" href="https://www.martinkaptein.com/feed.xml"><meta property="og:title" content="Using Hugo with Travis CI on GitHub Pages"><meta property="og:image" content="https://www.martinkaptein.com/media/posts/15/travis-ci-settings.jpg"><meta property="og:site_name" content="Martin Kaptein - My website"><meta property="og:description" content="In this blog post I will show how to build your static website with Hugo and deploy it to GitHub pages automatically using Travis CI. This can have a lot of benefits: For example, you can fix typo's directly from the Github web interface from your phone (without editing raw HTML). I kept the whole setup as minimal as possible. Hence, no bash script or travis command line tools are required."><meta property="og:url" content="https://www.martinkaptein.com/hugo-with-travis-ci-on-gh-pages/"><meta property="og:type" content="article"><meta property="fb:app_id" content="650663772029023"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@martinkaptein"><meta name="twitter:title" content="Using Hugo with Travis CI on GitHub Pages"><meta name="twitter:description" content="In this blog post I will show how to build your static website with Hugo and deploy it to GitHub pages automatically using Travis CI. This can have a lot of benefits: For example, you can fix typo's directly from the Github web interface from your phone (without editing raw HTML). I kept the whole setup as minimal as possible. Hence, no bash script or travis command line tools are required."><meta name="twitter:image" content="https://www.martinkaptein.com/media/posts/15/travis-ci-settings.jpg"><link rel="shortcut icon" href="https://www.martinkaptein.com/media/website/favicon.ico" type="image/x-icon"><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link href="https://fonts.googleapis.com/css?family=Roboto:400,700%7CRoboto+Condensed:400,700&amp;subset=latin-ext" rel="stylesheet"><link rel="stylesheet" href="https://www.martinkaptein.com/assets/css/style.css?v=29fb2c34ce81d9af93f9cd10912b2c30"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.martinkaptein.com/hugo-with-travis-ci-on-gh-pages/"},"headline":"Using Hugo with Travis CI on GitHub Pages","datePublished":"2019-04-22T15:52","dateModified":"2019-04-22T15:52","image":{"@type":"ImageObject","url":"https://www.martinkaptein.com/media/posts/15/travis-ci-settings.jpg","height":749,"width":1648},"description":"In this blog post I will show how to build your static website with Hugo and deploy it to GitHub pages automatically using Travis CI. This can have a lot of benefits: For example, you can fix typo's directly from the Github web interface from&hellip;","author":{"@type":"Person","name":"Martin Kaptein"},"publisher":{"@type":"Organization","name":"Martin Kaptein","logo":{"@type":"ImageObject","url":"https://www.martinkaptein.com/media/website/logo.png","height":705,"width":705}}}</script><script async src="https://www.martinkaptein.com/assets/js/lazysizes.min.js?v=fcb7109aacc796048242935c33a7f9ab"></script><style>.top__search [type=search] {
+						background-image: url(https://www.martinkaptein.com/assets/svg/search.svg);
+				    }</style></head><body><div class="container"><header class="js-top is-sticky"><a class="logo" href="https://www.martinkaptein.com"><img src="https://www.martinkaptein.com/media/website/logo.png" alt="Martin Kaptein"></a><div class="top"><nav class="navbar js-navbar"><button class="navbar__toggle js-navbar__toggle">Menu</button><ul class="navbar__menu"><li><a href="https://www.martinkaptein.com/about/" target="_self">About</a></li><li><a href="https://www.martinkaptein.com/contact/" target="_self">Contact</a></li></ul></nav><div class="top__search"><form action="https://www.martinkaptein.com/search.html" class="search"><input type="search" name="q" placeholder="search..."></form></div></div></header><main><article class="post"><div class="hero"><div class="hero__wrap"><img src="https://www.martinkaptein.com/media/posts/15/travis-ci-settings.jpg" sizes="(max-width: 1600px) 100vw, 1600px" srcset="https://www.martinkaptein.com/media/posts/15/responsive/travis-ci-settings-xs.jpg 300w, https://www.martinkaptein.com/media/posts/15/responsive/travis-ci-settings-sm.jpg 480w, https://www.martinkaptein.com/media/posts/15/responsive/travis-ci-settings-md.jpg 768w, https://www.martinkaptein.com/media/posts/15/responsive/travis-ci-settings-lg.jpg 1024w, https://www.martinkaptein.com/media/posts/15/responsive/travis-ci-settings-xl.jpg 1360w, https://www.martinkaptein.com/media/posts/15/responsive/travis-ci-settings-2xl.jpg 1600w" alt="Travis CI dashboard"></div><header class="hero__text"><h1>Using Hugo with Travis CI on GitHub Pages</h1><p class="post__meta"><time datetime="2019-04-22T15:52">April 22, 2019 </time>By <a href="https://www.martinkaptein.com/authors/martinkaptein/" rel="author" title="Martin Kaptein">Martin Kaptein</a></p></header></div><div class="post__entry"><p>In this blog post I will show how to build your static website with <a href="https://gohugo.io">Hugo</a> and deploy it to <a href="https://pages.github.com/">GitHub pages</a> automatically using <a href="https://travis-ci.org">Travis CI</a>.</p><p>This can have a lot of benefits: For example, you can fix typo's directly from the Github web interface from your phone (without editing raw HTML).</p><p>Due to various reasons I decided to use different repositories rather than one repo with different branches.</p><p>Also, I kept the whole setup as minimal as possible. Hence, no bash script or travis command line tools are required.</p><h2>Travis CI setup</h2><h3>travis.yml</h3><p>First of all, you will need to add a <code>.travis.yml</code> file to the root of your source directory. Please be aware that your operating system may hide the file.</p><p>Paste this into your <code>.travis.yml</code> file <strong>and edit it as necessary</strong> (instrucions provided).</p><pre><code>
+language: go
+
+go:
+  - master # This uses automatically the latest version of go
+
+install:
+  - go get github.com/spf13/hugo # This provides the latest version of Hugo to Travis CI
+
+script:
+  - hugo # This commands builds your website on travis
+
+deploy:
+  local_dir: public # Default static site output dir for Hugo
+  repo: &lt;yourusername&gt;/&lt;yourusername&gt;.github.io # This is the slug of the repo you want to deploy your site to
+  target_branch: master # GitHub pages branch to deploy to (in other cases it can be gh-pages)
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN # This is the authentication which you will setup in the next step in travis-ci dashboard
+  email: yourmail@mail.com
+  name: "Your username"
+  on:
+    branch: master
+</code></pre><h3>GitHub authentication</h3><p>Let's setup the git authentication.</p><p>Generate a Personal Access Token from this GitHub page: <a href="https://github.com/settings/tokens">github.com/settings/tokens</a>.</p><p>Please make sure to check repo - full control of repositories (the rest you don't need to enable).</p><figure class="post__image"><img class="lazyload" src="https://www.martinkaptein.com/media/posts/15/responsive/gh_access_token-xs.jpg" data-sizes="auto" data-srcset="https://www.martinkaptein.com/media/posts/15/responsive/gh_access_token-xs.jpg 300w ,https://www.martinkaptein.com/media/posts/15/responsive/gh_access_token-sm.jpg 480w ,https://www.martinkaptein.com/media/posts/15/responsive/gh_access_token-md.jpg 768w" alt="github access token for Travis CI" width="1267" height="754"></figure><p><em>Generating a GitHub access token for Travis CI</em></p><p>Copy the secret key to your clipboard and head over to <a href="https://travis-ci.org/">https://travis-ci.org/</a>.</p><p>Enable your source repository and turn the following options to on:</p><ul><li>Build only if .travis.yml is present</li><li>Build branch updates</li><li>Build pull request updates</li></ul><p>Then, scroll down and add a environment variable:</p><p>Set <code>Name</code> to <code>GITHUB_TOKEN</code> and paste your secret key (from the clipboard) to the <code>Value</code> field.</p><p>When you added it, it should hide the value and keep it secure (it is encrypted), according to the travis-ci docs.</p><p>The settings should look like this:</p><figure class="post__image"><img class="lazyload" src="https://www.martinkaptein.com/media/posts/15/responsive/travis-ci-settings-xs.jpg" data-sizes="auto" data-srcset="https://www.martinkaptein.com/media/posts/15/responsive/travis-ci-settings-xs.jpg 300w ,https://www.martinkaptein.com/media/posts/15/responsive/travis-ci-settings-sm.jpg 480w ,https://www.martinkaptein.com/media/posts/15/responsive/travis-ci-settings-md.jpg 768w" alt="Travis CI dashboard settings" width="1648" height="749"></figure><p><em>My Travis CI dashboard settings.</em></p><h3>Push to your source repo</h3><p>Now, it's time to see Travis CI in action: Just git add <code>.travis.yml</code>, commit and push.</p><p>The build process should start automatically and push to your GitHub Pages repo.</p><h2>Summary</h2><p>To sum up, this is a very minimal travis-ci setup. It's worth noting that Travis CI will always check for and download the latest version of <code>go</code> and <code>hugo</code>.</p><p>To speed the process up, you could move the hugo binaries to your source repo. But for the sake of simlicity I have omitted these options.</p><p class="post__last-updated">This article was updated on April 22, 2019</p></div><aside class="post__share"><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.martinkaptein.com%2Fhugo-with-travis-ci-on-gh-pages%2F" class="js-share facebook" title="Share with Facebook" rel="nofollow"><svg class="icon"><use xlink:href="https://www.martinkaptein.com/assets/svg/svg-map.svg#facebook"/></svg> </a><a href="https://twitter.com/share?url=https%3A%2F%2Fwww.martinkaptein.com%2Fhugo-with-travis-ci-on-gh-pages%2F&amp;via=%40MartinKaptein&amp;text=Using%20Hugo%20with%20Travis%20CI%20on%20GitHub%20Pages" class="js-share twitter" title="Share with Twitter" rel="nofollow"><svg class="icon"><use xlink:href="https://www.martinkaptein.com/assets/svg/svg-map.svg#twitter"/></svg></a></aside><footer class="post__footer"><ul class="post__tag"><li><a href="https://www.martinkaptein.com/tags/blog/">Blog</a></li><li><a href="https://www.martinkaptein.com/tags/tech/">Technology</a></li></ul><div class="post__bio"><img src="https://www.martinkaptein.com/media/website/martin-kaptein-hero-copy.JPG" alt="Martin Kaptein"><h3><a href="https://www.martinkaptein.com/authors/martinkaptein/" class="inverse" title="Martin Kaptein">Martin Kaptein</a></h3><p>Martin Kaptein is the author on the website on martinkaptein.com.</p></div><nav class="post__nav"><div class="post__nav__prev">Previous Post<h5><a href="https://www.martinkaptein.com/opinion-about-modular-phones/" class="inverse" rel="prev">My Opinion about modular phones</a></h5></div><div class="post__nav__next">Next Post<h5><a href="https://www.martinkaptein.com/old-tech-vs-new-tech-casio-vs-xiaomi/" class="inverse" rel="next">Old Technology vs New Technology - Casio F-91W vs Xiaomi Mi Band 2</a></h5></div></nav><div class="post__related"><h3>Related posts</h3><div class="post__related__wrap"><figure><a href="https://www.martinkaptein.com/10-reasons-casio-f-91w-best-watch/"><img class="lazyload" src="https://www.martinkaptein.com/media/posts/3/responsive/with-casio-f91w-xs.jpg" data-srcset="https://www.martinkaptein.com/media/posts/3/responsive/with-casio-f91w-xs.jpg" data-expand="300" alt="Casio F-91W in action"></a><figcaption><h4><a href="https://www.martinkaptein.com/10-reasons-casio-f-91w-best-watch/" class="inverse">10 Reasons the Casio F-91W is the best watch in the world</a></h4><time datetime="2019-04-21T12:27">April 21, 2019</time></figcaption></figure><figure><a href="https://www.martinkaptein.com/using-a-nexus-4-in-2018/"><img class="lazyload" src="https://www.martinkaptein.com/media/posts/4/responsive/ubports-terminal-xs.jpg" data-srcset="https://www.martinkaptein.com/media/posts/4/responsive/ubports-terminal-xs.jpg" data-expand="300" alt="Ubports running on the Nexus 4"></a><figcaption><h4><a href="https://www.martinkaptein.com/using-a-nexus-4-in-2018/" class="inverse">Using a Nexus 4 in 2018</a></h4><time datetime="2019-04-21T16:16">April 21, 2019</time></figcaption></figure><figure><a href="https://www.martinkaptein.com/ubuntu-touch-on-nexus-4-in-2018-installation-and-review/"><img class="lazyload" src="https://www.martinkaptein.com/media/posts/5/responsive/ubuntu-touch-nexus-4-xs.jpg" data-srcset="https://www.martinkaptein.com/media/posts/5/responsive/ubuntu-touch-nexus-4-xs.jpg" data-expand="300" alt="ubports running on the nexus 4"></a><figcaption><h4><a href="https://www.martinkaptein.com/ubuntu-touch-on-nexus-4-in-2018-installation-and-review/" class="inverse">Ubuntu Touch on the LG Nexus 4 in 2018 - the painful installation and review</a></h4><time datetime="2019-04-21T16:23">April 21, 2019</time></figcaption></figure></div></div></footer></article><h3>Comments</h3><div id="disqus_thread"></div><script>var disqus_config = function () {
+              this.page.url = 'https://www.martinkaptein.com/hugo-with-travis-ci-on-gh-pages/';
+      		this.page.identifier = '15';
+              this.page.title = ' Using Hugo with Travis CI on GitHub Pages - Martin Kaptein ';
+          };
+      
+          var disqus_loaded = false;
+      
+          function publiiLoadDisqus() {
+              if(disqus_loaded) {
+                  return false;
+              }
+      
+              var top = document.getElementById('disqus_thread').offsetTop;
+      
+              if (!disqus_loaded && (window.scrollY || window.pageYOffset) + window.innerHeight > top) {
+                  disqus_loaded = true;
+      
+                  (function () {
+                      var d = document, s = d.createElement('script');
+                      s.src = '//martinkaptein.disqus.com/embed.js';
+                      s.setAttribute('data-timestamp', +new Date());
+                      (d.head || d.body).appendChild(s);
+                  })();
+              }
+          }
+      
+          publiiLoadDisqus();
+      
+          window.onscroll = function() {
+              publiiLoadDisqus();
+          };</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></main><footer class="footer"><div class="footer__social"><a href="https://www.facebook.com/martin.kaptein" aria-label="Facebook"><svg class="icon"><use xlink:href="https://www.martinkaptein.com/assets/svg/svg-map.svg#facebook"/></svg> </a><a href="https://twitter.com/MartinKaptein/" aria-label="Twitter"><svg class="icon"><use xlink:href="https://www.martinkaptein.com/assets/svg/svg-map.svg#twitter"/></svg> </a><a href="https://www.instagram.com/martinkaptein/" aria-label="Instagram"><svg class="icon"><use xlink:href="https://www.martinkaptein.com/assets/svg/svg-map.svg#instagram"/></svg> </a><a href="https://linkedin.com/in/martin-kaptein-a26661159" aria-label="LinkedIn"><svg class="icon"><use xlink:href="https://www.martinkaptein.com/assets/svg/svg-map.svg#linkedin"/></svg> </a><a href="https://www.youtube.com/channel/UCosUIzMUriRTgg60vh3EwCQ" aria-label="Youtube"><svg class="icon"><use xlink:href="https://www.martinkaptein.com/assets/svg/svg-map.svg#youtube"/></svg></a></div><div class="footer__copyright">copyright 2019 Martin Kaptein</div></footer></div><script defer="defer" src="https://www.martinkaptein.com/assets/js/jquery-3.2.1.slim.min.js?v=5f48fc77cac90c4778fa24ec9c57f37d"></script><script defer="defer" src="https://www.martinkaptein.com/assets/js/scripts.min.js?v=5dffffceea1fdc07740088873ba7ff09"></script><div class="cookie-popup js-cookie-popup cookie-popup--uses-badge"><h2>This website uses cookies and Google Analytics</h2><p>Select which cookies to opt-in to via the checkboxes below; our website uses cookies and Google Analytics to examine site traffic and user activity while on our site, for marketing, and to provide social media functionality. This website uses cookies to ensure you get the best experience on our site and to provide a comment feature. To analyze our traffic, we use basic Google Analytics implementation with anonymized data. If you continue without changing your settings, we'll assume that you are happy to receive all cookies on the website of Martin Kaptein. To understand more about how we use cookies, or for information on how to change your cookie settings, please see our Privacy Policy. <a href="https://www.martinkaptein.com/privacy-policy/">More details...</a></p><form><input id="gdpr-necessary" name="gdpr-necessary" checked="checked" disabled="disabled" type="checkbox"> <label for="gdpr-necessary">Required</label> <input id="gdpr-functions" name="gdpr-functions" type="checkbox"> <label for="gdpr-functions">Functionality</label> <input id="gdpr-analytics" name="gdpr-analytics" type="checkbox"> <label for="gdpr-analytics">Analytical</label> <input id="gdpr-marketing" name="gdpr-marketing" type="checkbox"> <label for="gdpr-marketing">Marketing</label><p class="cookie-popup__save-wrapper"><button type="submit" class="cookie-popup__save">Save</button></p></form><span class="cookie-popup-label">Cookie Policy</span></div><script>(function() {
+                function addScript (src, inline) {
+                    var newScript = document.createElement('script');
+
+                    if (src) {
+                        newScript.setAttribute('src', src);
+                    }
+
+                    if (inline) {
+                        newScript.text = inline;
+                    }
+
+                    document.body.appendChild(newScript);
+                }
+
+                var popup = document.querySelector('.js-cookie-popup');
+                var checkboxes = popup.querySelectorAll('input[type="checkbox"]');
+                var save = popup.querySelector('button');
+                var currentConfig = localStorage.getItem('publii-gdpr-allowed-cookies');
+                var blockedScripts = document.querySelectorAll('script[type^="gdpr-blocker/"]');
+                
+
+                popup.addEventListener('click', function() {
+                    if (!popup.classList.contains('cookie-popup--is-sticky')) {
+                        popup.classList.add('cookie-popup--is-sticky');
+                    }
+                });
+
+                save.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    popup.classList.remove('cookie-popup--is-sticky');
+                    var allowedGroups = [];
+
+                    for (var i = 0; i < checkboxes.length; i++) {
+                        if (checkboxes[i].checked) {
+                            var groupName = checkboxes[i].getAttribute('name').replace('gdpr-', '');
+                            var scripts = document.querySelectorAll('script[type="gdpr-blocker/' + groupName + '"]');
+
+                            for (var j = 0; j < scripts.length; j++) {
+                                addScript(scripts[j].src, scripts[j].text);
+                            }
+
+                            allowedGroups.push(groupName);
+                        }
+                    }
+
+                    localStorage.setItem('publii-gdpr-allowed-cookies', allowedGroups.join(','));
+                    popup.classList.remove('cookie-popup--is-sticky');
+
+                    setTimeout(function () {
+                        if (currentConfig !== null) {
+                            window.location.reload();
+                        }
+                    }, 250);
+                });
+
+                if (currentConfig === null) {
+                    popup.classList.add('cookie-popup--is-sticky');
+                } else {
+                    if (currentConfig !== '') {
+                        var allowedGroups = currentConfig.split(',');
+
+                        for (var i = 0; i < allowedGroups.length; i++) {
+                            var scripts = document.querySelectorAll('script[type="gdpr-blocker/' + allowedGroups[i] + '"]');
+                            var checkbox = popup.querySelector('input[type="checkbox"][name="gdpr-' + allowedGroups[i] + '"]');
+
+                            if (checkbox) {
+                                checkbox.checked = true;
+                            }
+
+                            for (var j = 0; j < scripts.length; j++) {
+                                addScript(scripts[j].src, scripts[j].text);
+                            }
+                        }
+                    }
+                }
+            })();</script></body></html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Using machine learning to predict integers from a training set - Martin Kaptein</title><meta name="description" content="This beginner tutorial is an introduction to Machine Learning in Python on how to predict integers from a training set using scikit-learn and the linear regression model."><meta name="robots" content="index, follow"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="canonical" href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/machine-learning-introduction-python-scikit-learn/"><link rel="amphtml" href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/amp/machine-learning-introduction-python-scikit-learn/"><link type="application/atom+xml" rel="alternate" href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/feed.xml"><meta property="og:title" content="Using machine learning to predict integers from a training set"><meta property="og:image" content="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/9/untitled-design4.jpg"><meta property="og:site_name" content="Martin Kaptein - My website"><meta property="og:description" content="This beginner tutorial is an introduction to Machine Learning in Python on how to predict integers from a training set using scikit-learn and the linear regression model."><meta property="og:url" content="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/machine-learning-introduction-python-scikit-learn/"><meta property="og:type" content="article"><meta property="fb:app_id" content="650663772029023"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@martinkaptein"><meta name="twitter:title" content="Using machine learning to predict integers from a training set"><meta name="twitter:description" content="This beginner tutorial is an introduction to Machine Learning in Python on how to predict integers from a training set using scikit-learn and the linear regression model."><meta name="twitter:image" content="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/9/untitled-design4.jpg"><link rel="shortcut icon" href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/website/favicon.ico" type="image/x-icon"><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link href="https://fonts.googleapis.com/css?family=Roboto:400,700%7CRoboto+Condensed:400,700&amp;subset=latin-ext" rel="stylesheet"><link rel="stylesheet" href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/assets/css/style.css?v=29fb2c34ce81d9af93f9cd10912b2c30"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/machine-learning-introduction-python-scikit-learn/index.html"},"headline":"Using machine learning to predict integers from a training set","datePublished":"2019-04-21T18:34","dateModified":"2019-04-21T18:34","image":{"@type":"ImageObject","url":"file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/9/untitled-design4.jpg","height":627,"width":1200},"description":"IntroIn this tutorial we are going to take a look at the simplest basics of Machine Learning. For this we will be using scikit-learn / sklearn, as an alternative to the Keras and Tensorflow framework, together with Python. We will discover how to predict a&hellip;","author":{"@type":"Person","name":"Martin Kaptein"},"publisher":{"@type":"Organization","name":"Martin Kaptein","logo":{"@type":"ImageObject","url":"file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/website/logo.png","height":705,"width":705}}}</script><script async src="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/assets/js/lazysizes.min.js?v=fcb7109aacc796048242935c33a7f9ab"></script><style>.top__search [type=search] {
+						background-image: url(file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/assets/svg/search.svg);
+				    }</style></head><body><div class="container"><header class="js-top is-sticky"><a class="logo" href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/index.html"><img src="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/website/logo.png" alt="Martin Kaptein"></a><div class="top"><nav class="navbar js-navbar"><button class="navbar__toggle js-navbar__toggle">Menu</button><ul class="navbar__menu"><li><a href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/about/index.html" target="_self">About</a></li><li><a href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/contact/index.html" target="_self">Contact</a></li></ul></nav><div class="top__search"><form action="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/search.html" class="search"><input type="search" name="q" placeholder="search..."></form></div></div></header><main><article class="post"><div class="hero"><div class="hero__wrap"><img src="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/9/untitled-design4.jpg" sizes="(max-width: 1600px) 100vw, 1600px" srcset="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/9/responsive/untitled-design4-xs.jpg 300w, file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/9/responsive/untitled-design4-sm.jpg 480w, file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/9/responsive/untitled-design4-md.jpg 768w, file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/9/responsive/untitled-design4-lg.jpg 1024w, file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/9/responsive/untitled-design4-xl.jpg 1360w, file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/9/responsive/untitled-design4-2xl.jpg 1600w" alt="Artificial Intelligence"></div><header class="hero__text"><h1>Using machine learning to predict integers from a training set</h1><p class="post__meta"><time datetime="2019-04-21T18:34">April 21, 2019 </time>By <a href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/authors/martinkaptein/index.html" rel="author" title="Martin Kaptein">Martin Kaptein</a></p></header></div><div class="post__entry"><h2>Intro</h2><p>In this tutorial we are going to take a look at the simplest basics of Machine Learning. For this we will be using <a href="http://scikit-learn.org/stable/">scikit-learn / sklearn</a>, as an alternative to the Keras and Tensorflow framework, together with <a href="https://www.python.org/">Python</a>.</p><p>We will discover how to predict a series of integers based on a set of training data imported from a <code>.csv</code> file. Also, feel free to discover <a href="https://github.com/martinkaptein/integer-predictor">the end result in my Github repository</a>. Without further a do, let’s get started!</p><h2>Installation</h2><p>For this we will use Python version 3.x, which can be downloaded <a href="https://www.python.org/">from their website</a>. Also we will need some dependencies. After you have downloaded and installed Python on your machine (UNIX) run:</p><p><code>sudo pip3 install scikit-learn numpy pandas</code></p><p><strong>Note: If you have only one Python installation on your machine, and it is already version 3.x you might have to substitute <code>pip3</code> and <code>python3</code> for <code>pip</code> and <code>python</code> in your Terminal or Command Line application.</strong> <em>(Also, most of the code is compatible with Python 2 anyway, so that shouldn’t really be a problem).</em></p><p>Also, you might want to prepare a file with a series of integers, that we will use as a training set for our machine learning setup later. The file should look like this:</p><pre><code>
+0 ,
+2 ,
+4 ,
+6 ,
+8 ,
+10 ,
+12 ,
+</code></pre><p>Save this file as <code>filename.csv</code>.</p><p>Alternatively you can download <a href="https://raw.githubusercontent.com/martinkaptein/integer-predictor/master/example.csv">the example.csv file from my Github repository here</a>:</p><p><em>in your working directory run</em></p><p><code>wget https://raw.githubusercontent.com/martinkaptein/integer-predictor/master/example.csv</code></p><p>Now, create a <code>yourfilename.py</code> file and open it with your favourite code editor. Let’s get to the interesting part!</p><h1 data-breakpage=""> </h1><h2>The code</h2><h2>Importing the necessary machine learning libraries to Python</h2><p>Let’s import all the necessary stuff! Begin your file with the lines:</p><pre><code>
+import numpy as np
+np.set_printoptions(threshold=np.inf)
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+import warnings
+warnings.filterwarnings(action="ignore", module="sklearn", message="^internal gelsd")
+</code></pre><p>What this does is import <strong>numpy</strong>, which we need for <strong>sklearn</strong>, <strong>sklearn</strong> or <strong>scikit-learn</strong> with the <strong>Linear Regression</strong> model, which we will train and fit later with the training data, as well as <strong>pandas</strong>, which we need to work with <code>.csv</code> files.</p><p>Also, we use some options to suppress some non-essential warnings, as well as numpy configuration to later print the full result of the prediction.</p><h2>Model input and output definition</h2><p>Every Machine Learning tool needs input (x) and output (y) variables. This is totally logical, as we expect the machine learning algorithm to find the correlation between an input and output through a training procedure. But we only have a single set of input numbers (integers) that we need to predict. So how do we deal with it?</p><p>My solution is to generate a second <strong>dataset</strong> or, better, <strong>array</strong>:</p><p>We will use the array of numbers that we want to predict (from our <code>example.csv</code>) as an output (=y variable). The input (=x variable) will be a simple linear array of numbers (e.g <code>0, 1, 2, 3, 4</code> etc.) with the length of <code>y</code>. Hence, we want to feed the machine learning algorithm something like this (with the <code>example.csv</code> in mind):</p><table><thead><tr><th>Input x</th><th>Output y</th></tr></thead><tbody><tr><td>0</td><td>0</td></tr><tr><td>1</td><td>12</td></tr><tr><td>2</td><td>24</td></tr><tr><td>3</td><td>36</td></tr><tr><td>4</td><td>48</td></tr><tr><td>5</td><td>60</td></tr><tr><td>6</td><td>72</td></tr></tbody></table><p>Now we can just ask the Machine Learning model: Whats the <code>output</code> of the <code>input = 7</code>? Or, whats the <code>output</code> of the <code>input = [7,8,9,10,20,30,40]</code>?</p><p>Now it makes much more sense. Let’s implement that in our Python code:</p><h3>Reading, indexing and slicing the csv file with Pandas</h3><p>Let’s first define our output for our model, as it is just the content of our file. We just need to parse it using <code>pandas</code>:</p><p><em>(Remember, the output variable is y, input variable is x)</em></p><pre><code>
+inputData = pd.read_csv(example.csv, delimiter=',', header=None)
+y = inputData.iloc[:,0]  #select first column, next column would be [:,1] etc.
+</code></pre><p>Pandas DataFrame indexing and slicing is somewhat confusing to the beginner, just bare with me.</p><p>Great! We defined the output of our model! Now, let’s define the input (x).</p><p>First let’s get a Python function to build the linear array (1,2,3,etc) of the length of the output, we will call it <code>linearizer</code>:</p><p><em>By the way, there are probably much more elegant solutions out there, but this should do just fine.</em></p><pre><code>
+def linearizer(lowerLimit, upperLimit): # including lower and upper limit!
+    upperLimit += 1
+    out = []
+    while (lowerLimit &lt; upperLimit):
+        out.append(lowerLimit)
+        lowerLimit += 1
+    return out 
+</code></pre><p>Now, let’s build the array for our input (x):</p><pre><code>
+length_y = len(y.index) #Get the length of our output
+x = []
+x = linearizer(0, (length_y - 1)) #minus 1 to compensate for position 0
+</code></pre><p>What we need to do now, is to convert the simple Python array to a Pandas Dataframe. We can do this very simply by:</p><p><code>x = pd.DataFrame(x)</code>.</p><p>Fantastic, we have our input and output ready for our model to use.</p><h3>Defining and training the scikit model</h3><p>As, I have already stated in the beginning, for this problem, it is wisest to use the Linear Regression model. Let’s define the model:</p><p><code>model = LinearRegression()</code></p><p>Amazing! Now let’s train the model with our input and output.</p><p><code>model.fit(x, y)</code></p><p>It literally this simple! By the way, the <strong>Keras</strong> interface works in a very similar way, but we will get there!</p><h4>Making predictions with our sklearn model</h4><p>Now let’s say that we want to predict n integers ahead / forward.</p><p>This can be done really easily with <code>model.predict()</code>. The process is, again, similar: We create a pandas array (as input x) for the next n numbers and feed it into model.predict(). We ‘ask’ the model: what are the y for these x?</p><p>The code will then look like this:</p><pre><code>
+#build new array, 10 positions (as an example) ahead
+positionsToPredict = 10 #want to predict future n items
+new_data = linearizer(length_y, (positionsToPredict + length_y))
+new_data = pd.DataFrame(new_data)
+
+# feed the array into model.predict()
+prediction = model.predict(new_data)
+</code></pre><p>Finally, print your data:</p><p><code>print('\nPredictions based on Linear Regression:\n\n',prediction)</code></p><p>Very finally, run the whole contraption:</p><p><code>python3 yourfilename.py</code></p><h3>Conclusion</h3><p>This concludes the short introduction into the realm of machine learning. Feel free to take a look <a href="https://github.com/martinkaptein/integer-predictor/">at my Github repo here</a> to view the source code, run or modify the full program.</p><p>Also feel free to comment!</p><p> </p><p class="post__last-updated">This article was updated on April 21, 2019</p></div><aside class="post__share"><a href="https://www.facebook.com/sharer/sharer.php?u=file%3A%2F%2F%2FUsers%2Fmkaptein172%2FDocuments%2FPublii%2Fsites%2Fmartin-kaptein%2Fpreview%2Fmachine-learning-introduction-python-scikit-learn%2Findex.html" class="js-share facebook" title="Share with Facebook" rel="nofollow"><svg class="icon"><use xlink:href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/assets/svg/svg-map.svg#facebook"/></svg> </a><a href="https://twitter.com/share?url=file%3A%2F%2F%2FUsers%2Fmkaptein172%2FDocuments%2FPublii%2Fsites%2Fmartin-kaptein%2Fpreview%2Fmachine-learning-introduction-python-scikit-learn%2Findex.html&amp;via=%40MartinKaptein&amp;text=Using%20machine%20learning%20to%20predict%20integers%20from%20a%20training%20set" class="js-share twitter" title="Share with Twitter" rel="nofollow"><svg class="icon"><use xlink:href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/assets/svg/svg-map.svg#twitter"/></svg></a></aside><footer class="post__footer"><ul class="post__tag"><li><a href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/tag/blog/index.html">Blog</a></li><li><a href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/tag/tech/index.html">Technology</a></li></ul><div class="post__bio"><img src="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/website/martin-kaptein-hero-copy.JPG" alt="Martin Kaptein"><h3><a href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/authors/martinkaptein/index.html" class="inverse" title="Martin Kaptein">Martin Kaptein</a></h3><p>Martin Kaptein is the author on the website on martinkaptein.com.</p></div><nav class="post__nav"><div class="post__nav__prev">Previous Post<h5><a href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/the-three-periods-of-alexander-scriabin/index.html" class="inverse" rel="prev">The three artistic periods of A.Scriabin</a></h5></div><div class="post__nav__next">Next Post<h5><a href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/reharmonisation-using-non-functional-harmony/index.html" class="inverse" rel="next">Reharmonisation of a tune, using non-functional harmony</a></h5></div></nav><div class="post__related"><h3>Related posts</h3><div class="post__related__wrap"><figure><a href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/10-reasons-casio-f-91w-best-watch/index.html"><img class="lazyload" src="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/3/responsive/with-casio-f91w-xs.jpg" data-srcset="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/3/responsive/with-casio-f91w-xs.jpg" data-expand="300" alt="Casio F-91W in action"></a><figcaption><h4><a href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/10-reasons-casio-f-91w-best-watch/index.html" class="inverse">10 Reasons the Casio F-91W is the best watch in the world</a></h4><time datetime="2019-04-21T12:27">April 21, 2019</time></figcaption></figure><figure><a href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/using-a-nexus-4-in-2018/index.html"><img class="lazyload" src="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/4/responsive/ubports-terminal-xs.jpg" data-srcset="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/4/responsive/ubports-terminal-xs.jpg" data-expand="300" alt="Ubports running on the Nexus 4"></a><figcaption><h4><a href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/using-a-nexus-4-in-2018/index.html" class="inverse">Using a Nexus 4 in 2018</a></h4><time datetime="2019-04-21T16:16">April 21, 2019</time></figcaption></figure><figure><a href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/ubuntu-touch-on-nexus-4-in-2018-installation-and-review/index.html"><img class="lazyload" src="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/5/responsive/ubuntu-touch-nexus-4-xs.jpg" data-srcset="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/media/posts/5/responsive/ubuntu-touch-nexus-4-xs.jpg" data-expand="300" alt="ubports running on the nexus 4"></a><figcaption><h4><a href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/ubuntu-touch-on-nexus-4-in-2018-installation-and-review/index.html" class="inverse">Ubuntu Touch on the LG Nexus 4 in 2018 - the painful installation and review</a></h4><time datetime="2019-04-21T16:23">April 21, 2019</time></figcaption></figure></div></div></footer></article><h3>Comments</h3><div id="disqus_thread"></div><script>var disqus_config = function () {
+              this.page.url = 'file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/machine-learning-introduction-python-scikit-learn/index.html';
+      		this.page.identifier = '9';
+              this.page.title = ' Using machine learning to predict integers from a training set - Martin Kaptein ';
+          };
+      
+          var disqus_loaded = false;
+      
+          function publiiLoadDisqus() {
+              if(disqus_loaded) {
+                  return false;
+              }
+      
+              var top = document.getElementById('disqus_thread').offsetTop;
+      
+              if (!disqus_loaded && (window.scrollY || window.pageYOffset) + window.innerHeight > top) {
+                  disqus_loaded = true;
+      
+                  (function () {
+                      var d = document, s = d.createElement('script');
+                      s.src = '//martinkaptein.disqus.com/embed.js';
+                      s.setAttribute('data-timestamp', +new Date());
+                      (d.head || d.body).appendChild(s);
+                  })();
+              }
+          }
+      
+          publiiLoadDisqus();
+      
+          window.onscroll = function() {
+              publiiLoadDisqus();
+          };</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></main><footer class="footer"><div class="footer__social"><a href="https://www.facebook.com/martin.kaptein" aria-label="Facebook"><svg class="icon"><use xlink:href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/assets/svg/svg-map.svg#facebook"/></svg> </a><a href="https://twitter.com/MartinKaptein/" aria-label="Twitter"><svg class="icon"><use xlink:href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/assets/svg/svg-map.svg#twitter"/></svg> </a><a href="https://www.instagram.com/martinkaptein/" aria-label="Instagram"><svg class="icon"><use xlink:href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/assets/svg/svg-map.svg#instagram"/></svg> </a><a href="https://linkedin.com/in/martin-kaptein-a26661159" aria-label="LinkedIn"><svg class="icon"><use xlink:href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/assets/svg/svg-map.svg#linkedin"/></svg> </a><a href="https://www.youtube.com/channel/UCosUIzMUriRTgg60vh3EwCQ" aria-label="Youtube"><svg class="icon"><use xlink:href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/assets/svg/svg-map.svg#youtube"/></svg></a></div><div class="footer__copyright">copyright 2019 Martin Kaptein</div></footer></div><script defer="defer" src="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/assets/js/jquery-3.2.1.slim.min.js?v=5f48fc77cac90c4778fa24ec9c57f37d"></script><script defer="defer" src="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/assets/js/scripts.min.js?v=5dffffceea1fdc07740088873ba7ff09"></script><script defer="defer" src="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/assets/js/svg2js.js?v=6d8344c8e662976649fd775b9a234f87"></script><script defer="defer" src="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/assets/js/svg-fix.js?v=7c0d2bb7276904b382e80bf2d85e8a96"></script><div class="cookie-popup js-cookie-popup cookie-popup--uses-badge"><h2>This website uses cookies and Google Analytics</h2><p>Select which cookies to opt-in to via the checkboxes below; our website uses cookies and Google Analytics to examine site traffic and user activity while on our site, for marketing, and to provide social media functionality. This website uses cookies to ensure you get the best experience on our site and to provide a comment feature. To analyze our traffic, we use basic Google Analytics implementation with anonymized data. If you continue without changing your settings, we'll assume that you are happy to receive all cookies on the website of Martin Kaptein. To understand more about how we use cookies, or for information on how to change your cookie settings, please see our Privacy Policy. <a href="file:///Users/mkaptein172/Documents/Publii/sites/martin-kaptein/preview/privacy-policy/index.html">More details...</a></p><form><input id="gdpr-necessary" name="gdpr-necessary" checked="checked" disabled="disabled" type="checkbox"> <label for="gdpr-necessary">Required</label> <input id="gdpr-functions" name="gdpr-functions" type="checkbox"> <label for="gdpr-functions">Functionality</label> <input id="gdpr-analytics" name="gdpr-analytics" type="checkbox"> <label for="gdpr-analytics">Analytical</label> <input id="gdpr-marketing" name="gdpr-marketing" type="checkbox"> <label for="gdpr-marketing">Marketing</label><p class="cookie-popup__save-wrapper"><button type="submit" class="cookie-popup__save">Save</button></p></form><span class="cookie-popup-label">Cookie Policy</span></div><script>(function() {
+                function addScript (src, inline) {
+                    var newScript = document.createElement('script');
+
+                    if (src) {
+                        newScript.setAttribute('src', src);
+                    }
+
+                    if (inline) {
+                        newScript.text = inline;
+                    }
+
+                    document.body.appendChild(newScript);
+                }
+
+                var popup = document.querySelector('.js-cookie-popup');
+                var checkboxes = popup.querySelectorAll('input[type="checkbox"]');
+                var save = popup.querySelector('button');
+                var currentConfig = localStorage.getItem('publii-gdpr-allowed-cookies');
+                var blockedScripts = document.querySelectorAll('script[type^="gdpr-blocker/"]');
+                
+
+                popup.addEventListener('click', function() {
+                    if (!popup.classList.contains('cookie-popup--is-sticky')) {
+                        popup.classList.add('cookie-popup--is-sticky');
+                    }
+                });
+
+                save.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    popup.classList.remove('cookie-popup--is-sticky');
+                    var allowedGroups = [];
+
+                    for (var i = 0; i < checkboxes.length; i++) {
+                        if (checkboxes[i].checked) {
+                            var groupName = checkboxes[i].getAttribute('name').replace('gdpr-', '');
+                            var scripts = document.querySelectorAll('script[type="gdpr-blocker/' + groupName + '"]');
+
+                            for (var j = 0; j < scripts.length; j++) {
+                                addScript(scripts[j].src, scripts[j].text);
+                            }
+
+                            allowedGroups.push(groupName);
+                        }
+                    }
+
+                    localStorage.setItem('publii-gdpr-allowed-cookies', allowedGroups.join(','));
+                    popup.classList.remove('cookie-popup--is-sticky');
+
+                    setTimeout(function () {
+                        if (currentConfig !== null) {
+                            window.location.reload();
+                        }
+                    }, 250);
+                });
+
+                if (currentConfig === null) {
+                    popup.classList.add('cookie-popup--is-sticky');
+                } else {
+                    if (currentConfig !== '') {
+                        var allowedGroups = currentConfig.split(',');
+
+                        for (var i = 0; i < allowedGroups.length; i++) {
+                            var scripts = document.querySelectorAll('script[type="gdpr-blocker/' + allowedGroups[i] + '"]');
+                            var checkbox = popup.querySelector('input[type="checkbox"][name="gdpr-' + allowedGroups[i] + '"]');
+
+                            if (checkbox) {
+                                checkbox.checked = true;
+                            }
+
+                            for (var j = 0; j < scripts.length; j++) {
+                                addScript(scripts[j].src, scripts[j].text);
+                            }
+                        }
+                    }
+                }
+            })();</script></body></html>
