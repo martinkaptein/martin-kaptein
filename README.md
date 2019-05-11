@@ -2,7 +2,7 @@
 
 Repository of [martinkaptein.com](https://www.martinkaptein.com/).
 
-Currently using Publii 0.33.4. Hosted by Netlify.
+Currently using Publii v.0.34.1 (build 11733) Beta, the theme is Simple (v.2.0.1.0). Hosted by Netlify.
 
 
 ## Usage
